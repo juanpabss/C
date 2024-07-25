@@ -87,6 +87,21 @@ No* rotacaoDireita(No* r){
 }
 
 
+//Função responsavel pela rotação dupla a esquerda
+No* rotacaoDuplaEsquerda(No* r){
+    r->direita = rotacaoDireita(r->direita);
+    return rotacaoEsquerda(r);
+}
+
+//Função responsavel pela rotação dupla a direita
+No* rotacaoDuplaDireita(No* r){
+    r->esquerda = rotacaoEsquerda(r->esquerda);
+    return rotacaoDireita(r);
+}
+
+
+
+
 
 
 
