@@ -234,7 +234,43 @@ void imprimir(No *raiz, int nivel){
 
 
 int main(void){
-    printf("Hello world");
+    int escolha;
+    int valor;
+    No *raiz = NULL;
+
+    do{
+        printf("\n\n --------------MENU-------------");
+        printf("\n|\t1 - Inserir\t\t|");
+        printf("\n|\t2 - Remover \t\t|");
+        printf("\n|\t3 - Imprimir \t\t|");
+        printf("\n|\t0 - Sair \t\t|");
+        printf("\n -------------------------------");
+        printf("\nOpção escolhida: ");
+        scanf("%d", &escolha);
+
+        switch (escolha) {
+            case 0:
+                printf("\n\nEncerrando progama...");
+                break;
+            case 1:
+                printf("\nDigite o valor a ser inserido: ");
+                scanf("%d", &valor);
+                raiz = inserirNo(raiz, valor);
+                break;
+            case 2:
+                printf("\nDigite o valor a ser Removido: ");
+                scanf("%d", &valor);
+                raiz = remover(raiz, valor);
+                break;
+            case 3 :
+                imprimir(raiz,1);
+                break;
+            default:
+                printf("\nOpção invalida!\n");
+                break;
+        }
+    }while (escolha != 0);
+
     return 0;
 }
 
