@@ -73,7 +73,7 @@ No* rotacaoEsquerda(No *r){
 No* rotacaoDireita(No* r){
     No *y, *f;
     
-    y = r->esuqerda;
+    y = r->esquerda;
     f = y->direita;
 
     y->direita = r;
@@ -98,6 +98,37 @@ No* rotacaoDuplaDireita(No* r){
     r->esquerda = rotacaoEsquerda(r->esquerda);
     return rotacaoDireita(r);
 }
+
+
+/*
+função para realizar o balancemento da arvoare após uma inserção ou remoção
+Recebe o nó que está desbalanceado e retorna a nova raiz após o balanceamento
+*/ 
+
+No* balancerNo( No* raiz){
+    int fb = fatorDeBalanceamento(raiz);
+
+    // Rotação à esquerda
+    if(fb < -1 && fatorDeBalanceamento(raiz->direita) <= 0){
+        raiz = rotacaoEsquerda(raiz);
+
+    //Rotação à direita
+    } else if(fb > 1 && fatorDeBalanceamento(raiz->esquerda) >= 0){
+        raiz = rotacaoDireita(raiz);
+
+    //Rotação dupla à direita
+    } else if(fb > 1 && fatorDeBalanceamento(raiz->esquerda) < 0){
+        raiz = rotacaoDuplaDireita(raiz);
+
+    //Rotação dupla á esquerda
+    } else if(fb < -1 && fatorDeBalanceamento(raiz->direita) > 0){
+        raiz = rotacaoDuplaEsquerda(raiz);
+
+    }
+
+    return raiz;
+}
+
 
 
 
