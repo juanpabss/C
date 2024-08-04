@@ -157,6 +157,66 @@ No *inserirNo(No *raiz, int x){
 
 }
 
+No *remover(No *raiz, int chave){
+    if(raiz == NULL){
+        printf("\nValor não encontrado!");
+        return NULL;
+
+    } else {//Procura o nó a remover
+        if(raiz->conteudo == chave){
+            // Remover nós folhas(nós sem filhos)
+            if(raiz->esquerda == NULL && raiz->direita == NULL){
+                free(raiz);
+                printf("\nElemento folha removido: %d !", chave);
+                return NULL;
+
+            } else {
+                //remover nós que possuem 2 filhos
+                if(raiz->direita != NULL && raiz->esquerda != NULL){
+                    No *aux = raiz->esquerda;
+
+                    while(aux->direita != NULL){
+                        aux = aux->direita;
+                    }
+                    raiz->conteudo = aux->conteudo;
+                    aux->conteudo = chave;
+                    printf("\nElemento trocado: %d !", chave);
+                    raiz->esquerda = remover(raiz->esquerda, chave);
+                    return raiz;
+                }else{
+                    //remover nós que possuem 1 filho
+                    No *aux;
+                    if(raiz -> esquerda != NULL){
+                        aux = raiz->esquerda;
+                    } else {
+                        aux = raiz->direita;
+                    }
+                    free(raiz);
+                    printf("\n Elemento com 1 filho removido: %d !", chave);
+                    return raiz;
+
+                }
+
+            }
+        } else {
+            if(chave < raiz->conteudo){
+                raiz->esquerda = remover(raiz->esquerda, chave);
+            }else{
+                raiz->direita = remover(raiz->direita, chave);
+            }
+        }
+
+        //recalcular a alura de todos os nós entre a raiz e o novo no inserido
+        raiz->altura = maior(alturaDoNo(raiz->esquerda), alturaDoNo(raiz->direita)) +1;
+
+        raiz = balancerNo(raiz);
+
+        return raiz;
+
+    }
+
+}
+
 
 
 
