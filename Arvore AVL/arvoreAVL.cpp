@@ -129,7 +129,33 @@ No* balancerNo( No* raiz){
     return raiz;
 }
 
+/*
+Inserir um novo nó na arvore
+ raiz -> raiz da arvore
+ x -> valor a ser inserido
+ retorno: endereço do novo nó ou nova raiz apos o balanceamento
+*/
+No *inserirNo(No *raiz, int x){
+    if(raiz == NULL){
+        return novoNo(x);
+    }else {}
+    if(x < raiz->conteudo){
+        raiz->esquerda = inserirNo(raiz -> esquerda, x);
+    }else if(x > raiz->conteudo){
+        raiz->direita = inserirNo(raiz->direita, x);
+    } else {
+        printf("Inserção nãõ realizada \n Elemento  %d já existe", x);
+    }
 
+    //recalcular todas as alturas do nó entre a raiz e o novo nó inserido
+    raiz->altura = maior(alturaDoNo(raiz->esquerda), alturaDoNo(raiz->direita) ) +1;
+
+    //verificar a nescecidade de rebalancear a arvore
+    raiz = balancerNo(raiz);
+
+    return raiz;
+
+}
 
 
 
