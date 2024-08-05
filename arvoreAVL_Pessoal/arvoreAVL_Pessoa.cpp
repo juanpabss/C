@@ -1,16 +1,16 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 
 
-//typedef struct Pessoa{
-//    char nome[60];
-//    int idade;
-//    int cpf;
-//}Pessoa;
-
+typedef struct Pessoa{
+    char nome[60];
+    int idade;
+    int cpf;
+}Pessoa;
 
 typedef struct No{
-//    Pessoa pessoa;
+    Pessoa *pessoa;
     int conteudo;
     struct No *direita;
     struct No *esquerda;
@@ -18,13 +18,11 @@ typedef struct No{
 }No;
 
 // função para criar um novo no
-No* novoNo(int x){
-
+No* novoNo(Pessoa *x){
     No *novo =(No *)malloc(sizeof(No));
 
-
     if(novo){
-        novo->conteudo = x;
+        novo->pessoa = x;
         novo->esquerda = NULL;
         novo->direita = NULL;
         novo->altura = 0;
@@ -143,17 +141,17 @@ Inserir um novo nó na arvore
  x -> valor a ser inserido
  retorno: endereço do novo nó ou nova raiz apos o balanceamento
 */
-No *inserirNo(No *raiz, int x){
+No *inserirNo(No *raiz, Pessoa *x){
     if(raiz == NULL){
         printf("\nElemento inserido com sucesso");
         return novoNo(x);
     }else {}
-    if(x < raiz->conteudo){
+    if(x->cpf < raiz->pessoa->cpf){
         raiz->esquerda = inserirNo(raiz -> esquerda, x);
-    }else if(x > raiz->conteudo){
+    }else if(x->cpf > raiz->pessoa->cpf){
         raiz->direita = inserirNo(raiz->direita, x);
     } else {
-        printf("Inserção nãõ realizada \n Elemento  %d já existe", x);
+        printf("Inserção nãõ realizada \n Elemento  %d já existe", x->cpf);
     }
 
     //recalcular todas as alturas do nó entre a raiz e o novo nó inserido
@@ -172,7 +170,7 @@ No *remover(No *raiz, int chave){
         return NULL;
 
     } else {//Procura o nó a remover
-        if(raiz->conteudo == chave){
+        if(raiz->pessoa->cpf == chave){
             // Remover nós folhas(nós sem filhos)
             if(raiz->esquerda == NULL && raiz->direita == NULL){
                 free(raiz);
@@ -187,8 +185,11 @@ No *remover(No *raiz, int chave){
                     while(aux->direita != NULL){
                         aux = aux->direita;
                     }
-                    raiz->conteudo = aux->conteudo;
-                    aux->conteudo = chave;
+                    Pessoa *pessoaaux;
+                    pessoaaux = raiz->pessoa;
+
+                    raiz->pessoa = aux->pessoa;
+                    aux->pessoa = pessoaaux;
                     printf("\nElemento trocado: %d !", chave);
                     raiz->esquerda = remover(raiz->esquerda, chave);
                     return raiz;
@@ -202,13 +203,13 @@ No *remover(No *raiz, int chave){
                     }
                     free(raiz);
                     printf("\n Elemento com 1 filho removido: %d !", chave);
-                    return raiz;
+                    return aux;
 
                 }
 
             }
         } else {
-            if(chave < raiz->conteudo){
+            if(chave < raiz->pessoa->cpf){
                 raiz->esquerda = remover(raiz->esquerda, chave);
             }else{
                 raiz->direita = remover(raiz->direita, chave);
@@ -226,6 +227,25 @@ No *remover(No *raiz, int chave){
 
 }
 
+void imprimirPessoa(Pessoa *pessoa, int nivel){
+    int i, j;
+    int nivel2 = nivel;
+    int nivel1 = nivel;
+
+    printf("Nome: %s \n", pessoa->nome);
+    for(i = 0; i < nivel1; i++){
+        printf("\t");
+    }
+
+    printf("CPF: %d \n", pessoa->cpf);
+
+    for(j = 0; j < nivel2; j++){
+        printf("\t");
+    }
+    printf("Idade: %d", pessoa->idade);
+
+}
+
 void imprimir(No *raiz, int nivel){
     int i;
     if(raiz){
@@ -236,7 +256,9 @@ void imprimir(No *raiz, int nivel){
             printf("\t");
         }
 
-        printf("%d", raiz->conteudo);
+        int nivelcopia = nivel;
+
+        imprimirPessoa(raiz->pessoa, nivelcopia);
         imprimir(raiz->esquerda, nivel + 1);
     }
 
@@ -247,10 +269,12 @@ void imprimir(No *raiz, int nivel){
 }
 
 
+
 int main(void){
     int escolha;
     int valor;
     No *raiz = NULL;
+    Pessoa *p;
 
     do{
         printf("\n\n --------------MENU-------------");
@@ -267,14 +291,20 @@ int main(void){
                 printf("\n\nEncerrando progama...");
                 break;
             case 1:
-                printf("\nDigite o valor a ser inserido: ");
-                scanf("%d", &valor);
-                raiz = inserirNo(raiz, valor);
+                p =(Pessoa *)malloc(sizeof (Pessoa));
+
+                printf("Digite o nome: ");
+                scanf(" %59[^\n]s", p->nome);
+                printf("Digite o cpf: ");
+                scanf("%d", &p->cpf);
+                printf("Digite a idade: ");
+                scanf("%d", &p->idade);
+                raiz = inserirNo(raiz, p);
                 break;
             case 2:
                 printf("\nARVORE:");
                 imprimir(raiz, 1);
-                printf("\nDigite o valor a ser Removido: ");
+                printf("\nDigite o CPF a ser Removido: ");
                 scanf("%d", &valor);
                 raiz = remover(raiz, valor);
                 break;

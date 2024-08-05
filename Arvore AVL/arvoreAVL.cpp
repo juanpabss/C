@@ -194,7 +194,7 @@ No *remover(No *raiz, int chave){
                     }
                     free(raiz);
                     printf("\n Elemento com 1 filho removido: %d !", chave);
-                    return raiz;
+                    return aux;
 
                 }
 
