@@ -137,6 +137,7 @@ Inserir um novo nó na arvore
 */
 No *inserirNo(No *raiz, int x){
     if(raiz == NULL){
+        printf("\nElemento inserido com sucesso");
         return novoNo(x);
     }else {}
     if(x < raiz->conteudo){
@@ -230,6 +231,11 @@ void imprimir(No *raiz, int nivel){
         printf("%d", raiz->conteudo);
         imprimir(raiz->esquerda, nivel + 1);
     }
+
+    if(nivel == 1){
+        printf("\n\nFator de balanceamento: %d", fatorDeBalanceamento(raiz));
+    };
+
 }
 
 
@@ -258,6 +264,8 @@ int main(void){
                 raiz = inserirNo(raiz, valor);
                 break;
             case 2:
+                printf("\nARVORE:");
+                imprimir(raiz, 1);
                 printf("\nDigite o valor a ser Removido: ");
                 scanf("%d", &valor);
                 raiz = remover(raiz, valor);
