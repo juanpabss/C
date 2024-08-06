@@ -23,3 +23,15 @@ int cor(No *raiz){
     }
 }
 
+void trocarCor(No *raiz){
+    raiz->cor = !raiz->cor;
+
+    if(raiz->esquerda != NULL){
+        raiz->esquerda->cor = !raiz->esquerda->cor;
+    }
+    if(raiz->direita != NULL){
+        raiz->direita->cor = !raiz->direita->cor;
+    }
+}
+
+
