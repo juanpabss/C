@@ -59,4 +59,13 @@ No* novoNo(int x){
     return novo;
 }
 
+// Função que retorna altura de um ou -1 se ele for null
+int alturaDoNo(No *no){
+    if(no == NULL){
+        return -1;
+    }else{
+        return no->altura;
+    }
+}
+
 
